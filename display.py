@@ -15,8 +15,8 @@ from utime import sleep_us, sleep_ms, ticks_us, ticks_diff
 import pins
 
 ROWS = 8
-COLS = 32       # shift positions of the two SM16106 chips
-VISIBLE = 24    # columns 0..23 are the visible ones (see t02_pixel_walk.py)
+COLS = 32       # length of the shift register (2 x 16 outputs of the SM16106 chips)
+VISIBLE = 24    # the matrix has only 24 columns; the other 8 outputs are probably unused (see t02)
 
 
 class Display:

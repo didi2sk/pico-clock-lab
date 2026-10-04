@@ -21,7 +21,7 @@ Piny sú z pôvodného firmvéru (`pins.py`). Schému si pozri na stránke Waves
 ### Ako displej funguje
 
 ```
-              ┌──────────────┐   32 stĺpcov (prúdové zdroje)
+              ┌──────────────┐   32 výstupov (24 na LED)
  SDI,CLK,LE ─►│ 2× SM16106   ├───────────────┐
               │ posuvný reg. │               ▼
               │  + latch     │        ┌────────────────┐
@@ -32,7 +32,9 @@ Piny sú z pôvodného firmvéru (`pins.py`). Schému si pozri na stránke Waves
 ```
 
 - **Riadky:** naraz svieti iba jeden z 8 riadkov, vyberie ho dekodér podľa `A0..A2`.
-- **Stĺpce:** do 32-bitového posuvného registra sa posunie obsah riadka. Čip má **latch**, takže
+- **Stĺpce:** matica má **24 stĺpcov**, ale dva čipy SM16106 tvoria **32-bitový** posuvný register
+  (2 × 16 výstupov), takže sa vždy posúva 32 bitov a 8 výstupov pravdepodobne nie je na LED zapojených
+  (ktoré, to ukáže `t02_pixel_walk.py`). Do registra sa posunie obsah riadka. Čip má **latch**, takže
   výstupy držia hodnotu, aj keď sa do registra posúvajú nové bity. Pamäť je ale len na jeden riadok.
 - **Multiplexovanie:** 8 riadkov sa strieda tak rýchlo, že oko vidí celý obraz. LED samotné
   pamäť nemajú, svietia len, kým cez ne tečie prúd.
@@ -61,7 +63,7 @@ Testy spúšťaj otvorením súboru v Thonny a **F5**. Pred nahratím si zálohu
 | Súbor | Čo robí | Čo sa naučíš |
 |---|---|---|
 | `t01_static_pixel.py` | zasvieti jednu LED (`ROW`, `COL`), bez skenovania | riadok + stĺpec + OE sú všetko, čo treba |
-| `t02_pixel_walk.py` | jedna LED prejde všetkých 8 × 32 pozícií | ktoré stĺpce sú viditeľné a smer (vľavo/vpravo) |
+| `t02_pixel_walk.py` | jedna LED prejde všetkých 8 × 32 pozícií posuvu | ktorých 24 z 32 pozícií svieti na displeji a smer (vľavo/vpravo) |
 | `t03_row_walk.py` | po riadkoch svieti celý riadok | obraz sa skladá po riadkoch |
 | `t04_patterns.py` | všetko, šachovnica, rám, uhlopriečka, pruhy | mŕtve LED, zrkadlenie, duchovia (ghosting) |
 | `t05_brightness.py` | mení `on_us` | ako sa mení jas a kedy začne blikať |
